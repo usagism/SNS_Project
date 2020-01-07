@@ -1,26 +1,80 @@
 <template>
-  <div class="container">
-    <h1>Latest Posts</h1>
-<div class="create-post">
-  <label for = "create-post">Say Something</label>
-  <input type="text" id="create-post" v-model="text" placeholder="Create A Post">
-  <button v-on:click="createPost">Post!</button>
-  </div>    
-  <hr>
-    <p class="error" v-if="error">{{ error }}</p>
-    <div class="posts-container">
-      <div class="post"
-        v-for="(post, index) in posts"
-        v-bind:item="post"
-        v-bind:index="index"
-        v-bind:key="post._id"
-        v-on:dblclick="deletePost(post._id)"
+  <v-container fluid class="grey lighten-5">
+    <v-row>
+      <v-col cols="12" sm="3">
+   
+    <v-list shaped>
+      <v-subheader>REPORTS</v-subheader>
+      <v-list-item-group v-model="item" color="primary">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
         >
-          {{ post.createdAt.getDate() }} {{ post.createdAt.getMonth() }} {{ post.createdAt.getFullYear() }} 
-          <p class="text">{{ post.text }}</p>
-      </div>
-    </div>
-  </div>
+          <v-list-item-icon>
+            <v-icon v-text="item.icon"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.text"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <div class="container">
+          <h1>Latest Posts</h1>
+          <div class="create-post">
+            <label for = "create-post">Make a Post</label>
+            <v-text-field  id="create-post" v-model="text" placeholder="Create A Post"></v-text-field>
+            <v-btn color="primary" v-on:click="createPost">Post!</v-btn>
+          </div>    
+          <hr>
+          <p class="error" v-if="error">{{ error }}</p>
+          <div class="posts-container">
+            <div class="post"
+              v-for="(post, index) in posts"
+              v-bind:item="post"
+              v-bind:index="index"
+              v-bind:key="post._id"
+              v-on:dblclick="deletePost(post._id)"
+              >
+                {{ post.createdAt.getDate() }} {{ post.createdAt.getMonth() }} {{ post.createdAt.getFullYear() }} 
+                <p class="text">{{ post.text }}</p>
+            </div>
+          </div>
+        </div>
+      </v-col>
+ 
+      <v-col cols="12" sm="3">
+        <h1>Trending</h1>
+        <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title>Single-line item</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item two-line>
+      <v-list-item-content>
+        <v-list-item-title>Two-line item</v-list-item-title>
+        <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-list-item three-line>
+      <v-list-item-content>
+        <v-list-item-title>Three-line item</v-list-item-title>
+        <v-list-item-subtitle>
+          Secondary line text Lorem ipsum dolor sit amet,
+        </v-list-item-subtitle>
+        <v-list-item-subtitle>
+          consectetur adipiscing elit.
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+      </v-col>
+    </v-row>
+
+  </v-container>
 </template>
 
 <script>
@@ -31,7 +85,14 @@ export default {
     return {
       posts: [],
       error: '',
-      text: ''
+      text: '',
+      item: 1,
+      items: [
+        { text: 'Notification', icon: 'mdi-clock' },
+        { text: 'Messages', icon: 'mdi-account' },
+        { text: 'Bookmarks', icon: 'mdi-flag' },
+        { text: 'Lists', icon: 'mdi-flag' },
+      ],
     }
   },
   async created() {
@@ -57,7 +118,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 div.container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 p.error {
